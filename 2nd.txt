@@ -1,0 +1,30 @@
+class Car:
+    def __init__(self, rendszam, marka, modell, evjarat):
+        self.rendszam = rendszam
+        self.marka = marka
+        self.modell = modell
+        self.evjarat = evjarat
+
+cars = [
+    Car("PK5555", "Mercedes", "Gt63S", 2017),
+    Car("OTL420", "BMW", "M4", 2014),
+    Car("Prada91", "Toyota", "Supra", 2020)
+]
+
+def korozott(rendszam):
+    for car in cars:
+        if car.rendszam == rendszam:
+            return car
+    return None
+
+rendszam = input("Keresett rendszam: ").upper()
+car = keresett(rendszam)
+
+if car:
+    print("\nAutó adatai:")
+    print(car.marka, end = " || ")
+    print(car.modell, end = " || ")
+    print(car.evjarat)
+
+else:
+    print("Nincs ilyen rendszám tárolva.")
