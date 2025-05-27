@@ -1,0 +1,90 @@
+#include <iostream>
+#include <cstdlib>
+#include <sstream>
+#include <string>
+#include <fstream>
+#include <vector>
+using namespace std;
+class product {
+private:
+	string kateg;
+	string szavatos;
+	int ar;
+
+public:
+	product() {
+		this->kateg = "blank";
+		this->szavatos = "00.00.00";
+		this->ar = 0;
+	}
+	product(string kat, string szav, int price) {
+		this->kateg = kat;
+		this->szavatos = szav;
+		this->ar = price;
+}
+	product(const product& other) {
+		this->kateg = other.kateg;
+		this->szavatos = other.szavatos;
+		this->ar = other.ar;
+	}
+	~product() {
+		cout << "destruktor aktivalva";
+}
+	string getkateg() const {
+		return kateg;
+	}
+	string getszav() const {
+		return szavatos;
+	}
+	int getar() const {
+		return ar;
+	}
+
+	void setkateg(string k) {
+		this->kateg = k;
+}
+	void setszav(string sz) {
+		this->szavatos = sz;
+	}
+	void setar(int a) {
+		this->ar = a;
+	}
+	void print(ostream& os) const {
+		os << "kategoria: " << kateg << "\n"
+			<< "szavatossag: " << szavatos << "\n"
+			<< "ar: " << ar << "\n\n";
+}
+};
+int main() {
+	ifstream infile("be.txt", ios::in);
+	ofstream outfile("ki.txt", ios::out);
+	product p1("diary", "25.05.30", 12);
+	p1.print(cout);
+	product p2;
+	p2.print(cout);
+	p2 = p1;
+	p2.print(cout);
+	product* p4 = new product("banan", "20.244.", 5);
+	p4->print(cout);
+	delete p4;
+	string line;
+	vector<product> termekek;
+	while (getline(infile, line)) {
+		stringstream ss(line);
+		string kat, szav, arStr;
+		int ar;
+
+		getline(ss, kat, ',');
+		getline(ss, szav, ',');
+		getline(ss, arStr, ',');
+		ar = stoi(arStr);
+		product p(kat, szav, ar);
+		termekek.push_back(p);
+	}
+	for (const auto& p : termekek) {
+		p.print(cout);
+		p.print(outfile);
+	}
+	infile.close();
+	outfile.close();
+}
